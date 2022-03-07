@@ -1,0 +1,137 @@
+---
+# Front Matter for Liquid Templates
+# TODO:
+    # Import Font Properly
+    # Search functionality for table
+    # Mobile responsive
+    # Days counter
+    # Deployment strategy
+---
+<!DOCTYPE html>
+<html>
+    <style>
+        body {
+            /* Todo: IMPORT Final Font */
+            font-family: 'Raleway', sans-serif;
+            background-color: black;
+            color: white;
+        }
+
+        .header {
+            padding: 1em;
+            font-size: x-large;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 3fr 1fr;
+        }
+
+        .logo {
+            max-width: 2px;
+        }
+
+        #myInput {
+            background-image: url('/css/searchicon.png'); /* Add a search icon to input */
+            background-position: 10px 12px; /* Position the search icon */
+            background-repeat: no-repeat; /* Do not repeat the icon image */
+            width: 100%; /* Full-width */
+            background-color: black;
+            color: white;
+            font-size: 16px; /* Increase font-size */
+            padding: 12px 20px 12px 40px; /* Add some padding */
+            border: 1px solid #ddd; /* Add a grey border */
+            margin-bottom: 12px; /* Add some space below the input */
+        }
+    </style>
+    
+    <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap" rel="stylesheet">
+    </head>
+    
+    <body>
+        <div class="header">
+            Pulsechain Airdrops
+        </div>
+    
+        <div class="grid" style="margin-top: 10%">
+            <div></div>
+            <div>
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="HEX, PLS...">
+                <table id="myTable" width="100%">
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th align="left">
+                            Eligbile:
+                        </th>
+
+                        <th align="left">
+                            Days Left:
+                        </th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        {% for airdrop in site.data.airdrops %}
+                            <td>
+                                <img src="/assets/logos/{{ airdrop.logo }}" height="30">
+                            </td>
+
+                            <td>
+                                {{ airdrop.ticker }}
+                            </td>
+
+                            <td> {{ airdrop.description }}</td>
+
+                            <td>
+                                <img src="/assets/logos/{{ airdrop.eligible }}" height="30">
+                            </td>
+
+                            <td>
+                                198
+                            </td>
+
+                            <td>
+                                <a style="text-decoration: none; color: white"; href={{ airdrop.site }}> Site </a>
+                            </td>
+
+                        {% endfor %}
+                    </tr>
+                </table>
+            </div>
+            <div></div>
+        </div>
+    </body>
+   </html>
+
+   <script>
+        function myFunction() {
+            // Declare variables
+            var input, filter, table, tr, td, i, txtValue;
+
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+
+            table = document.getElementById("myTable");
+            tr = table.getElementsByTagName("tr");
+
+            // Loop through all table rows, and hide those who don't match the search query
+            for (i = 0; i < tr.length; i++) {
+
+                td = tr[i].getElementsByTagName("td")[1];
+
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+   </script>
